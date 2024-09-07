@@ -3,11 +3,6 @@ const express = require('express');
 function userapi(usersCollection) {
     const router = express.Router();
 
-    // Testing route
-    router.get('/test', (req, res) => {
-        res.send("Request from userapi");
-    });
-
     // Route to add a new user
     router.post('/new-user', async (req, res) => {
         const userData = req.body;
@@ -27,6 +22,21 @@ function userapi(usersCollection) {
         } catch (error) {
             console.error('Error inserting data:', error);
             res.status(500).json({ error: 'An error occurred while adding the user' });
+        }
+    });
+
+    // Route to get all users
+    router.get('/users', async (req, res) => {
+        try {
+            // Fetch all users from the collection
+            const usersCursor = usersCollection.find({}); // Returns a cursor to the documents
+            const users = await usersCursor.toArray(); // Convert cursor to array
+
+            // Send the users as a JSON response
+            res.status(200).json(users);
+        } catch (error) {
+            console.error('Error fetching users:', error);
+            res.status(500).json({ message: 'Error fetching users', error: error.message });
         }
     });
 

@@ -1,0 +1,20 @@
+POST http://localhost:3000/scholarshipapi/addscholarship
+Content-Type: application/json
+
+     {
+        "id": 10,
+        "name": "Next-Gen Engineering Leaders",
+        "description": "Supports students who are working on projects that have the potential to impact the engineering industry.",
+        "amount": 4000,
+        "eligibility": "B.Tech students with impactful engineering projects or research.",
+        "deadline": "2024-12-10",
+        "requiredDocuments": [
+            "Proof of enrollment",
+            "Project report or research paper",
+            "Academic transcript",
+            "Recommendation letter"
+        ]
+    }
+
+###
+GET http://localhost:3000/scholarshipapi/scholarships
