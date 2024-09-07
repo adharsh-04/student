@@ -24,6 +24,21 @@ function eventsapi(eventsCollection) {
         }
     });
 
+     // Route to get all users
+     router.get('/events', async (req, res) => {
+        try {
+            // Fetch all users from the collection
+            const eventsCursor = eventsCollection.find({}); // Returns a cursor to the documents
+            const events = await eventsCursor.toArray(); // Convert cursor to array
+
+            // Send the users as a JSON response
+            res.status(200).json(events);
+        } catch (error) {
+            console.error('Error fetching events:', error);
+            res.status(500).json({ message: 'Error fetching events', error: error.message });
+        }
+    });
+
     return router;
 }
 

@@ -26,14 +26,17 @@ async function initializeDatabase() {
         const database = client.db("student");
         const usersCollection = database.collection("usersCollection");
         const eventsCollection= database.collection("eventsCollection");
+        const scholarshipsCollection=database.collection("scholarshipsCollection");
 
         // Import userapi and pass the usersCollection
         const userapi = require('../backend/APIs/userapi')(usersCollection);
         const eventsapi=require('../backend/APIs/eventsapi')(eventsCollection);
+        const scholarshipsapi=require('../backend/APIs/scholarshipapi')(scholarshipsCollection);
 
         // Use the userapi routes
         app.use('/userapi', userapi);
-        app.use('/eventsapi',eve);
+        app.use('/eventsapi',eventsapi);
+        app.use('/scholarshipapi',scholarshipsapi)
 
         // Start the server
         app.listen(port, () => console.log(`Server is running on port ${port}...`));

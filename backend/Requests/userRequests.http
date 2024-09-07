@@ -1,4 +1,4 @@
-GET http://localhost:3000/userapi/test
+GET http://localhost:3000/userapi/users
 
 ###
 POST http://localhost:3000/userapi/new-user
