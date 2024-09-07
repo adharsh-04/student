@@ -1,0 +1,13 @@
+POST http://localhost:3000/eventsapi/addevent
+Content-Type: application/json
+
+{
+    "eventname":"book donation drive",
+    "conducted by":"VNRSF",
+    "eventdate":"08-SEP-2024",
+    "eventenddate":"12-SEP-2024",
+    "registrationlastdate":"10-SEP-2024",
+    "registrationfee":"500",
+    "facultycoordinators":"Ramesh,suresh,vignesh",
+    "eligibility":"all branches"
+}

@@ -1,7 +1,45 @@
-const exp=require('express');;
-const app=exp();
-const userapi=require('../backend/APIs/userapi')
+const express = require('express');
+const app = express();
 require('dotenv').config();
-const port=process.env.PORT||4000;
-app.use('/userapi',userapi);
-app.listen(port,()=>console.log(`server is running on port ${port}....`));
+const port = process.env.PORT || 4000;
+
+// Middleware to parse JSON
+app.use(express.json());
+
+// MongoDB connection setup
+const { MongoClient } = require('mongodb');
+const uri = process.env.MONGO_URL;
+
+if (!uri) {
+    console.error('MONGO_URL environment variable is missing.');
+    process.exit(1);
+}
+
+const client = new MongoClient(uri);
+
+async function initializeDatabase() {
+    try {
+        // Connect to MongoDB
+        await client.connect();
+        console.log('Connected to MongoDB');
+
+        const database = client.db("student");
+        const usersCollection = database.collection("usersCollection");
+        const eventsCollection= database.collection("eventsCollection");
+
+        // Import userapi and pass the usersCollection
+        const userapi = require('../backend/APIs/userapi')(usersCollection);
+        const eventsapi=require('../backend/APIs/eventsapi')(eventsCollection);
+
+        // Use the userapi routes
+        app.use('/userapi', userapi);
+        app.use('/eventsapi',eve);
+
+        // Start the server
+        app.listen(port, () => console.log(`Server is running on port ${port}...`));
+    } catch (error) {
+        console.error('Error connecting to MongoDB:', error);
+    }
+}
+
+initializeDatabase().catch(console.error);
