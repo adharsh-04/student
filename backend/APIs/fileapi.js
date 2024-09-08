@@ -5,21 +5,23 @@ const path = require('path');
 const upload = multer({
     storage: multer.diskStorage({
         destination: (req, file, cb) => {
-            cb(null, 'uploads/'); // Folder where the PDF will be saved
+            cb(null, 'uploads/');
         },
         filename: (req, file, cb) => {
             const uniqueSuffix = Date.now() + '-' + Math.round(Math.random() * 1E9);
-            cb(null, uniqueSuffix + path.extname(file.originalname)); // Save file with a unique name
+            cb(null, uniqueSuffix + path.extname(file.originalname));
         }
     }),
+    limits: { fileSize: 10 * 1024 * 1024 }, // 10 MB limit
     fileFilter: (req, file, cb) => {
         if (file.mimetype === 'application/pdf') {
-            cb(null, true); // Accept PDF only
+            cb(null, true);
         } else {
             cb(new Error('Only PDF files are allowed'), false);
         }
     }
 });
+
 
 function fileapi(filesCollection) {
     const router = express.Router();
