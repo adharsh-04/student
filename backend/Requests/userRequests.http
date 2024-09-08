@@ -5,9 +5,18 @@ POST http://localhost:3000/userapi/new-user
 Content-Type: application/json
 
 {
-    "username":"user2",
+    "username":"prashanth",
     "rollno":"22071a05a5",
     "branch":"cse",
     "email":"user1@gmail.com",
-    "password":"user1"
+    "password":"prashanth"
+}
+
+###
+POST http://localhost:3000/userapi/login
+Content-Type: application/json
+
+{
+    "username":"prashanth",
+    "password":"prashanth"
 }
