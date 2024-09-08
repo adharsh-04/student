@@ -1,4 +1,8 @@
 const express = require('express');
+const bcrypt = require('bcrypt'); 
+const jwt = require('jsonwebtoken'); 
+
+const secretKey =process.env.SECRET_KEY; 
 
 function userapi(usersCollection) {
     const router = express.Router();
@@ -6,7 +10,8 @@ function userapi(usersCollection) {
     // Route to add a new user
     router.post('/new-user', async (req, res) => {
         const userData = req.body;
-        const username = userData.username; // assuming the username is passed in the body
+        const username = userData.username;
+        const password = userData.password;
 
         try {
             // Check if the user already exists
@@ -16,8 +21,14 @@ function userapi(usersCollection) {
                 return res.status(400).json({ message: 'User already exists with this username.' });
             }
 
-            // Insert new user data into the collection
-            const result = await usersCollection.insertOne(userData);
+           
+            const hashedPassword = await bcrypt.hash(password, 10);
+
+            
+            const result = await usersCollection.insertOne({
+                ...userData,
+                password: hashedPassword 
+            });
             res.status(201).json({ message: 'User added successfully', data: result });
         } catch (error) {
             console.error('Error inserting data:', error);
@@ -25,14 +36,48 @@ function userapi(usersCollection) {
         }
     });
 
-    // Route to get all users
+    // Route for user login
+    router.post('/login', async (req, res) => {
+        const { username, password } = req.body;
+
+        try {
+            
+            const user = await usersCollection.findOne({ username });
+
+            if (!user) {
+                return res.status(400).json({ message: 'Invalid username or password' });
+            }
+
+            
+            const isPasswordValid = await bcrypt.compare(password, user.password);
+
+            if (!isPasswordValid) {
+                return res.status(400).json({ message: 'Invalid username or password' });
+            }
+
+           
+            const token = jwt.sign(
+                { userId: user._id, username: user.username }, 
+                secretKey, 
+                { expiresIn: '1h' } 
+            );
+
+            
+            res.status(200).json({ message: 'Login successful', token });
+        } catch (error) {
+            console.error('Error during login:', error);
+            res.status(500).json({ message: 'Error during login', error: error.message });
+        }
+    });
+
+ 
     router.get('/users', async (req, res) => {
         try {
-            // Fetch all users from the collection
-            const usersCursor = usersCollection.find({}); // Returns a cursor to the documents
-            const users = await usersCursor.toArray(); // Convert cursor to array
+           
+            const usersCursor = usersCollection.find({});
+            const users = await usersCursor.toArray();
 
-            // Send the users as a JSON response
+            
             res.status(200).json(users);
         } catch (error) {
             console.error('Error fetching users:', error);

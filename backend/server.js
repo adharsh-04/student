@@ -2,6 +2,9 @@ const express = require('express');
 const app = express();
 require('dotenv').config();
 const port = process.env.PORT || 4000;
+const cors = require('cors');
+app.use(cors());
+
 
 // Middleware to parse JSON
 app.use(express.json());
@@ -27,16 +30,19 @@ async function initializeDatabase() {
         const usersCollection = database.collection("usersCollection");
         const eventsCollection= database.collection("eventsCollection");
         const scholarshipsCollection=database.collection("scholarshipsCollection");
+        const filesCollection=database.collection("filesCollection");
 
         // Import userapi and pass the usersCollection
         const userapi = require('../backend/APIs/userapi')(usersCollection);
         const eventsapi=require('../backend/APIs/eventsapi')(eventsCollection);
         const scholarshipsapi=require('../backend/APIs/scholarshipapi')(scholarshipsCollection);
+        const fileapi=require('../backend/APIs/fileapi')(filesCollection);
 
         // Use the userapi routes
         app.use('/userapi', userapi);
         app.use('/eventsapi',eventsapi);
         app.use('/scholarshipapi',scholarshipsapi)
+        app.use('/fileapi',fileapi);
 
         // Start the server
         app.listen(port, () => console.log(`Server is running on port ${port}...`));
