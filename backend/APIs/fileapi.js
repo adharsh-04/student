@@ -1,15 +1,17 @@
 const express = require('express');
 const multer = require('multer');
 const path = require('path');
+const { ObjectId } = require('mongodb');
 
+// Setup multer for PDF file upload with unique filename
 const upload = multer({
     storage: multer.diskStorage({
         destination: (req, file, cb) => {
-            cb(null, 'uploads/');
+            cb(null, 'uploads/'); // Files stored in uploads/ directory
         },
         filename: (req, file, cb) => {
             const uniqueSuffix = Date.now() + '-' + Math.round(Math.random() * 1E9);
-            cb(null, uniqueSuffix + path.extname(file.originalname));
+            cb(null, uniqueSuffix + path.extname(file.originalname)); // Unique filename on disk
         }
     }),
     limits: { fileSize: 10 * 1024 * 1024 }, // 10 MB limit
@@ -22,7 +24,6 @@ const upload = multer({
     }
 });
 
-
 function fileapi(filesCollection) {
     const router = express.Router();
 
@@ -32,39 +33,46 @@ function fileapi(filesCollection) {
             if (!req.file) {
                 return res.status(400).json({ message: 'No file uploaded' });
             }
-    
+
             // Save the file details in MongoDB, including the original filename
             const fileData = {
                 originalname: req.file.originalname, // Original filename
-                filename: req.file.filename, // Unique filename
+                filename: req.file.filename, // Unique filename stored on disk
                 path: req.file.path,
                 uploadDate: new Date(),
             };
-    
+
             const result = await filesCollection.insertOne(fileData);
-    
+
             res.status(201).json({ message: 'File uploaded successfully', data: result });
         } catch (error) {
             console.error('Error uploading file:', error);
             res.status(500).json({ message: 'Error uploading file', error: error.message });
         }
     });
-    
 
-    // Route to download a PDF file
-    router.get('/download/:originalname', async (req, res) => {
-        const { originalname } = req.params;
-    
+    // Route to retrieve all files from the collection
+    router.get('/files', async (req, res) => {
         try {
-            // Fetch file details from the database
-            const file = await filesCollection.findOne({ originalname });
-            if (!file) {
-                return res.status(404).send('File not found');
-            }
-    
-            const filePath = path.join(__dirname, '../uploads', file.filename);
-    
-            res.download(filePath, (err) => {
+            const files = await filesCollection.find().toArray(); // Get all files from DB
+            res.json(files);
+        } catch (error) {
+            res.status(500).json({ message: 'Error fetching files' });
+        }
+    });
+
+    // Route to download a file by its ObjectId
+    router.get('/download/:id', async (req, res) => {
+        const fileId = req.params.id;
+
+        try {
+            const file = await filesCollection.findOne({ _id: new ObjectId(fileId) });
+            if (!file) return res.status(404).json({ message: 'File not found' });
+
+            const filePath = path.join(__dirname, '../uploads', file.filename); // Path to stored file
+
+            // Send the file for download
+            res.download(filePath, file.originalname, (err) => {
                 if (err) {
                     console.error('Error downloading file:', err);
                     res.status(500).send('Error downloading file');
@@ -75,16 +83,10 @@ function fileapi(filesCollection) {
             res.status(500).send('Error fetching file details');
         }
     });
-    
 
+       
 
     return router;
 }
 
 module.exports = fileapi;
-
-
-//using post man
-//http://localhost:3000/fileapi/download/akhilesh2.pdf get request to display the file in pdf format
-//http://localhost:3000/fileapi/upload  select form-data,file , File,file from folders to store in database
-//always use orignal filename in order to retreive that file successfully 

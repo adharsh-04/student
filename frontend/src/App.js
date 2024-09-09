@@ -8,7 +8,6 @@ import AddEvents from './components/addEvents/Addevents';
 import ViewEvents from './components/Viewevents/Viewevents';
 import Events from './components/Events/Events';
 import Chatbot from "../src/chatbot/Chatbot";
-import FileDownload from "./File/FileDownload";
 import FileUpload from "./File/FileUpload";
 import Dashboard from './Dashboard/Dashboard';
 import File from './File/File';
