@@ -1,17 +1,17 @@
 const express = require('express');
 const multer = require('multer');
 const path = require('path');
+const fs = require('fs');
 const { ObjectId } = require('mongodb');
 
-// Setup multer for PDF file upload with unique filename
 const upload = multer({
     storage: multer.diskStorage({
         destination: (req, file, cb) => {
-            cb(null, 'uploads/'); // Files stored in uploads/ directory
+            cb(null, 'print-files/'); // Renamed folder
         },
         filename: (req, file, cb) => {
             const uniqueSuffix = Date.now() + '-' + Math.round(Math.random() * 1E9);
-            cb(null, uniqueSuffix + path.extname(file.originalname)); // Unique filename on disk
+            cb(null, uniqueSuffix + path.extname(file.originalname));
         }
     }),
     limits: { fileSize: 10 * 1024 * 1024 }, // 10 MB limit
@@ -24,25 +24,38 @@ const upload = multer({
     }
 });
 
-function fileapi(filesCollection) {
+function printapi(printCollection) {
     const router = express.Router();
 
-    // Route to upload a PDF file
+    // Route to upload a PDF file and fill form details
     router.post('/upload', upload.single('file'), async (req, res) => {
         try {
             if (!req.file) {
                 return res.status(400).json({ message: 'No file uploaded' });
             }
 
-            // Save the file details in MongoDB, including the original filename
+            // Save the file details and form data in MongoDB
             const fileData = {
-                originalname: req.file.originalname, // Original filename
-                filename: req.file.filename, // Unique filename stored on disk
+                originalname: req.file.originalname,
+                filename: req.file.filename,
                 path: req.file.path,
                 uploadDate: new Date(),
+                formDetails: req.body, // This will store number of copies, color, etc.
             };
 
-            const result = await filesCollection.insertOne(fileData);
+            const result = await printCollection.insertOne(fileData);
+
+            // Schedule file deletion after 1 hour
+            setTimeout(async () => {
+                fs.unlink(fileData.path, (err) => {
+                    if (err) {
+                        console.error('Error deleting file:', err);
+                    } else {
+                        console.log('File deleted successfully');
+                    }
+                });
+                await printCollection.deleteOne({ _id: result.insertedId });
+            }, 60 * 60 * 1000); // 1 hour in milliseconds
 
             res.status(201).json({ message: 'File uploaded successfully', data: result });
         } catch (error) {
@@ -51,42 +64,31 @@ function fileapi(filesCollection) {
         }
     });
 
-    // Route to retrieve all files from the collection
+    // Route to get all print jobs
     router.get('/files', async (req, res) => {
         try {
-            const files = await filesCollection.find().toArray(); // Get all files from DB
+            const files = await printCollection.find().sort({ uploadDate: -1 }).toArray();
             res.json(files);
         } catch (error) {
             res.status(500).json({ message: 'Error fetching files' });
         }
     });
 
-    // Route to download a file by its ObjectId
-    router.get('/download/:id', async (req, res) => {
+    // Route to preview/download a PDF file
+    router.get('/preview/:id', async (req, res) => {
         const fileId = req.params.id;
-
         try {
-            const file = await filesCollection.findOne({ _id: new ObjectId(fileId) });
+            const file = await printCollection.findOne({ _id: new ObjectId(fileId) });
             if (!file) return res.status(404).json({ message: 'File not found' });
 
-            const filePath = path.join(__dirname, '../uploads', file.filename); // Path to stored file
-
-            // Send the file for download
-            res.download(filePath, file.originalname, (err) => {
-                if (err) {
-                    console.error('Error downloading file:', err);
-                    res.status(500).send('Error downloading file');
-                }
-            });
+            const filePath = path.join(__dirname, '../print-files', file.filename);
+            res.sendFile(filePath);
         } catch (error) {
-            console.error('Error fetching file details:', error);
-            res.status(500).send('Error fetching file details');
+            res.status(500).json({ message: 'Error fetching file' });
         }
     });
-
-       
 
     return router;
 }
 
-module.exports = fileapi;
+module.exports = printapi;
