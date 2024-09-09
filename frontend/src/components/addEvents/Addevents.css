@@ -1,0 +1,101 @@
+/* Container for the entire page */
+#container {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    width: 100vw;
+    
+    overflow: hidden; /* Ensures no overflow */
+}
+
+/* Image section */
+#image-section {
+    width: 40vw; /* Set a specific width for the image section */
+   
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-color: #000; /* Optional: Add a background color for contrast */
+}
+
+#image {
+    max-width: 100%;
+    max-height: 100%;
+    object-fit: cover; /* Ensures the image covers the container while maintaining aspect ratio */
+}
+
+/* Form section */
+#form-section {
+    flex: 1; /* Occupies the remaining space */
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-color: #f9f9f9;
+    padding: 10px;
+}
+
+/* Styles for the form */
+form {
+    max-width: 550px; /* Set a max width for the form */
+    width: 100%;
+    padding: 20px;
+    background-color: #ffffff;
+    border-radius: 8px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    display: flex;
+    flex-direction: column;
+}
+
+/* Styles for form labels */
+form label {
+    margin-bottom: 10px; /* Reduced margin */
+    font-weight: bold;
+    color: #333;
+    display: flex;
+    flex-direction: column;
+}
+
+/* Styles for input elements */
+form input,
+form select {
+    padding: 8px; /* Reduced padding */
+    margin-top: 5px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    font-size: 16px;
+    transition: border-color 0.3s ease, box-shadow 0.3s ease;
+    background-color: #fff;
+    color: #333;
+}
+
+/* Focus state for inputs */
+form input:focus,
+form select:focus {
+    border-color: #007bff;
+    box-shadow: 0 0 5px rgba(0, 123, 255, 0.5);
+    outline: none;
+}
+
+/* Styles for the submit button */
+form button[type="submit"] {
+    padding: 12px;
+    margin-top: 20px;
+    background-color: #007bff;
+    color: #fff;
+    border: none;
+    border-radius: 4px;
+    font-size: 16px;
+    cursor: pointer;
+    transition: background-color 0.3s ease, box-shadow 0.3s ease;
+}
+
+/* Hover effect for the submit button */
+form button[type="submit"]:hover {
+    background-color: #0056b3;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+/* Styles for faculty coordinator inputs */
+form input[type="text"] {
+    margin-bottom: 5px;
+}

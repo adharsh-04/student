@@ -32,17 +32,36 @@ function FileDownload() {
     };
 
     return (
-        <div>
-            <h2>Download File</h2>
-            <input
-                type="text"
-                placeholder="Enter filename"
-                value={filename}
-                onChange={(e) => setFilename(e.target.value)}
-            />
-            <button onClick={handleFileDownload}>Download</button>
-            <p>{message}</p>
+        <div className="container mt-5">
+    <div className="card shadow-lg">
+        <div className="card-body">
+            <h2 className="text-center mb-4">Download File</h2>
+            <div className="mb-3">
+                <label htmlFor="filenameInput" className="form-label">Enter Filename</label>
+                <input
+                    type="text"
+                    className="form-control"
+                    id="filenameInput"
+                    placeholder="Enter filename"
+                    value={filename}
+                    onChange={(e) => setFilename(e.target.value)}
+                />
+            </div>
+            <div className="text-center">
+                <button
+                    className="btn btn-success"
+                    onClick={handleFileDownload}
+                >
+                    Download
+                </button>
+            </div>
+            <div className="mt-3 text-center">
+                <p className="text-info">{message}</p>
+            </div>
         </div>
+    </div>
+</div>
+
     );
 }
 

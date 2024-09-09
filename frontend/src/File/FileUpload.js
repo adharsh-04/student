@@ -30,12 +30,34 @@ function FileUpload() {
     };
 
     return (
-        <div>
-            <h2>Upload File</h2>
-            <input type="file" onChange={handleFileChange} />
-            <button onClick={handleFileUpload}>Upload</button>
-            <p>{message}</p>
+        <div className="container mt-5">
+    <div className="card shadow-lg">
+        <div className="card-body">
+            <h2 className="text-center mb-4">Upload File</h2>
+            <div className="mb-3">
+                <label htmlFor="fileInput" className="form-label">Choose File</label>
+                <input
+                    type="file"
+                    className="form-control"
+                    id="fileInput"
+                    onChange={handleFileChange}
+                />
+            </div>
+            <div className="text-center">
+                <button
+                    className="btn btn-primary"
+                    onClick={handleFileUpload}
+                >
+                    Upload
+                </button>
+            </div>
+            <div className="mt-3 text-center">
+                <p className="text-success">{message}</p>
+            </div>
         </div>
+    </div>
+</div>
+
     );
 }
 

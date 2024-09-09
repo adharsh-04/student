@@ -1,13 +1,63 @@
 import React, { useState } from 'react';
 import axios from 'axios';
-import './AddEvents.css';
+import '../addEvents/Addevents.css';
 
 const AddEvents = () => {
-   let [register,handleSubmit]=useForm();
+    const [eventData, setEventData] = useState({
+        eventName: '',
+        eventPicture: null,
+        organizedBy: '',
+        facultyCoordinators: ['', '', ''],
+        registrationsAvailable: '',
+        startDate: '',
+        endDate: '',
+        registrationEndDate: '',
+        entryFee: '',
+        availability: 'All',
+    });
 
-   function onSubmit(obj){
-    console.log(obj)
-   }
+    const handleChange = (e) => {
+        const { name, value } = e.target;
+        setEventData({ ...eventData, [name]: value });
+    };
+
+    const handleFacultyCoordinatorChange = (index, value) => {
+        const newFacultyCoordinators = [...eventData.facultyCoordinators];
+        newFacultyCoordinators[index] = value;
+        setEventData({ ...eventData, facultyCoordinators: newFacultyCoordinators });
+    };
+
+    const handleFileChange = (e) => {
+        setEventData({ ...eventData, eventPicture: e.target.files[0] });
+    };
+
+    const handleSubmit = async (e) => {
+        e.preventDefault();
+        const formData = new FormData();
+        Object.keys(eventData).forEach((key) => {
+            if (key === 'facultyCoordinators') {
+                eventData.facultyCoordinators.forEach((coord, index) => {
+                    formData.append(`facultyCoordinator${index + 1}`, coord);
+                });
+            } else {
+                formData.append(key, eventData[key]);
+            }
+        });
+
+        try {
+            const response = await axios.post('/api/events', formData, {
+                headers: { 'Content-Type': 'multipart/form-data' },
+            });
+
+            if (eventData.entryFee) {
+                window.location.href = '/payment';
+            } else {
+                alert('Successfully Registered');
+            }
+        } catch (error) {
+            console.error('Error registering event:', error);
+        }
+    };
 
     return (
         <div id="container" style={{width:"100vw"}}>
@@ -19,15 +69,15 @@ const AddEvents = () => {
                     <h3 className='text-center text-primary' style={{fontFamily:"italic"}}>Event Registration Form</h3>
                     <label>
                         Event Name:
-                        <input type="text" id="eventname" {...register('eventname')} required />
+                        <input type="text" name="eventName" value={eventData.eventName} onChange={handleChange} required />
                     </label>
                     <label>
                         Event Picture:
-                        <input type="file" id="eventPicture" {...register('eventPicture')} />
+                        <input type="file" name="eventPicture" onChange={handleFileChange} />
                     </label>
                     <label>
                         Organized By:
-                        <input type="text" name="organizedBy" id="organized" {...register('organized')} required />
+                        <input type="text" name="organizedBy" value={eventData.organizedBy} onChange={handleChange} required />
                     </label>
                     <label>
                         Faculty Coordinators:
@@ -42,23 +92,23 @@ const AddEvents = () => {
                     </label>
                     <label>
                         Registrations Available:
-                        <input type="number" id="registrationsAvailable" {...register('registrationAvailable')}  required/>
+                        <input type="number" name="registrationsAvailable" value={eventData.registrationsAvailable} onChange={handleChange} />
                     </label>
                     <label>
                         Event Start Date:
-                        <input type="date" name="startDate" required />
+                        <input type="date" name="startDate" value={eventData.startDate} onChange={handleChange} required />
                     </label>
                     <label>
                         Event End Date:
-                        <input type="date" id="endDate" required />
+                        <input type="date" name="endDate" value={eventData.endDate} onChange={handleChange} required />
                     </label>
                     <label>
                         Registration End Date:
-                        <input type="date" id="registrationEndDate"  required />
+                        <input type="date" name="registrationEndDate" value={eventData.registrationEndDate} onChange={handleChange} required />
                     </label>
                     <label>
                         Entry Fee (optional):
-                        <input type="number" id="entryFee" />
+                        <input type="number" name="entryFee" value={eventData.entryFee} onChange={handleChange} />
                     </label>
                     <label>
                         Availability:
@@ -78,5 +128,6 @@ const AddEvents = () => {
         </div>
     );
 };
+
 
 export default AddEvents;
