@@ -1,5 +1,4 @@
 
-
 import { RouterProvider, createBrowserRouter } from 'react-router-dom';
 import Root from './components/Root/Root';
 import Home from './components/Home/Home';
@@ -11,6 +10,7 @@ import Events from './components/Events/Events';
 import Chatbot from "../src/chatbot/Chatbot";
 import Dashboard from './Dashboard/Dashboard';
 import Scholorship from './components/Scholorship/Scholorship';
+import Chatbot from "../src/chatbot/Chatbot";
 import FileUploadForm from "./print/FileUploadForm";
 // import FileUpload from "./File/FileUpload";
 
