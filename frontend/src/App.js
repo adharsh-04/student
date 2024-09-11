@@ -1,4 +1,3 @@
-
 import { RouterProvider, createBrowserRouter } from 'react-router-dom';
 import Root from './components/Root/Root';
 import Home from './components/Home/Home';
@@ -11,7 +10,7 @@ import Events from './components/Events/Events';
 import Scholorship from './components/Scholorship/Scholorship';
 import Chatbot from "../src/chatbot/Chatbot";
 import FileUploadForm from "./print/FileUploadForm";
-// import FileUpload from "./File/FileUpload";
+import FileUpload from "../src/File/FileUpload";
 
 function App() {
   const router = createBrowserRouter([
@@ -32,15 +31,43 @@ function App() {
           element: <Login />
         },
         {
-        path:'dashboard',
-        element:<Dashboard/>,
-        children:[
-        {path:'fileuploadform',
-        element:<FileUploadForm/>,
+          path: 'dashboard',
+          element: <Dashboard />
+          // children: [
+          //   {
+          //     path: 'fileuploadform',
+          //     element: <FileUploadForm />
+          //   },
+          //   {
+          //     path: 'scholorship',
+          //     element: <Scholorship />
+          //   },
+          //   {
+          //     path: 'fileupload',
+          //     element: <FileUpload />
+          //   }
+          // ]
         },
         {
+          path:'/fileuploadform',
+          element:<FileUploadForm/>
+
+
+        },
+        {
+          path:'/scholarship',
+          element:<Scholorship/>
+
+        },
+        {
+          path:'/fileupload',
+          element:<FileUpload/>
+        },
+
+        {
+          // "Events" route should be outside the "Dashboard" so that it opens in a separate page.
           path: 'events',
-          element: <Events/>,
+          element: <Events />,
           children: [
             {
               path: 'addevents',
@@ -51,12 +78,6 @@ function App() {
               element: <ViewEvents />
             }
           ]
-        },
-        {
-          path:"scholorship",
-          element:<Scholorship/>
-        },
-        ]
         }
       ]
     }
@@ -66,7 +87,7 @@ function App() {
     <div className="App">
       <h1 className="text-center text-danger" style={{ fontWeight: 'bold' }}>
         Welcome to the Project
-        <Chatbot/>
+        <Chatbot />
       </h1>
       <RouterProvider router={router}></RouterProvider>
     </div>

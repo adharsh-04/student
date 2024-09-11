@@ -8,7 +8,7 @@ function Login() {
 
   function onLoginSuubmit(userObj){
     console.log(userObj)
-    navigate('/Dashboard')
+    navigate('/dashboard')
   }
 
   return (

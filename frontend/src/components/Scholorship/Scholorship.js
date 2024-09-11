@@ -6,4 +6,4 @@ function Scholorship() {
   )
 }
 
-export default Scholorship
+export default Scholorship;
