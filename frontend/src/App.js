@@ -1,4 +1,5 @@
 
+
 import { RouterProvider, createBrowserRouter } from 'react-router-dom';
 import Root from './components/Root/Root';
 import Home from './components/Home/Home';
@@ -8,10 +9,10 @@ import AddEvents from './components/addEvents/Addevents';
 import ViewEvents from './components/Viewevents/Viewevents';
 import Events from './components/Events/Events';
 import Chatbot from "../src/chatbot/Chatbot";
-import FileUpload from "./File/FileUpload";
 import Dashboard from './Dashboard/Dashboard';
-import File from './File/File';
 import Scholorship from './components/Scholorship/Scholorship';
+import FileUploadForm from "./print/FileUploadForm";
+// import FileUpload from "./File/FileUpload";
 
 function App() {
   const router = createBrowserRouter([
@@ -35,18 +36,8 @@ function App() {
         path:'dashboard',
         element:<Dashboard/>,
         children:[
-        {path:'file',
-          element:<File/>,
-          children:[
-          {
-          path:'filedownload',
-          element:<FileDownload/>
-        },
-        {
-          path:'fileupload',
-          element:<FileUpload/>
-        },
-        ]
+        {path:'fileuploadform',
+        element:<FileUploadForm/>,
         },
         {
           path: 'events',

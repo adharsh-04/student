@@ -13,7 +13,7 @@ function Dashboard() {
           <Link className="btn btn-secondary text-dark nav-link-info d-block m-auto w-25 mt-4 " to='events'>
             Events
           </Link>
-          <Link className="btn btn-secondary text-dark nav-link-info d-block m-auto w-25 mt-4" to="file">
+          <Link className="btn btn-secondary text-dark nav-link-info d-block m-auto w-25 mt-4" to="fileuploadform">
           File
           </Link>
           <Link className="btn btn-secondary text-dark nav-link-info d-block m-auto w-25 mt-4" to="scholorship">
