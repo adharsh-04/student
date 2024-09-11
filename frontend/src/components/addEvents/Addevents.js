@@ -1,9 +1,8 @@
 import React, { useState } from 'react';
 import axios from 'axios';
 import '../addEvents/Addevents.css';
-import {useForm} from 'react-hook-form'
-import useForm from 'react-hook-form'
-import './AddEvents.css';
+
+import './Addevents.css';
 
 const AddEvents = () => {
     const [eventData, setEventData] = useState({
