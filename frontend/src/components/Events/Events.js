@@ -6,8 +6,7 @@ function Events() {
     <div className="container mt-5">
       <div className="row">
         <div className="col-lg-12">
-          <h1>Events</h1>
-          <p>Welcome to the Events page.</p>
+         
           <nav className='d-flex justify-content-evenly'>
             <Link className="btn btn-secondary text-dark nav-link-info" to="addevents">
               Add Events

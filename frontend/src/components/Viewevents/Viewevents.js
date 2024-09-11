@@ -1,59 +1,74 @@
-import React, { useState, useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import axios from 'axios';
-import '../Viewevents/Viewevents.css';
+import './Viewevents.css'; // Ensure this CSS file is included for styling
 
-const ViewEvents = () => {
+const Viewevents = () => {
     const [events, setEvents] = useState([]);
+    const [selectedEvent, setSelectedEvent] = useState(null);
 
     useEffect(() => {
         const fetchEvents = async () => {
             try {
-                const response = await axios.get('/api/events');
+                const response = await axios.get('http://localhost:3000/eventsapi/events');
                 setEvents(response.data);
             } catch (error) {
                 console.error('Error fetching events:', error);
             }
         };
-        
 
         fetchEvents();
     }, []);
 
+    const handleEventClick = (event) => {
+        setSelectedEvent(event);
+    };
+
+    const handleClose = () => {
+        setSelectedEvent(null);
+    };
+
     return (
-        <div id="events-container">
-            <h2 className="text-center">Upcoming Events</h2>
-            <div className="events-grid">
-                {events.length === 0 ? (
-                    <p>No events available</p>
-                ) : (
-                    events.map((event, index) => (
-                        <div key={index} className="event-card">
-                            <img 
-                                src={event.eventPicture ? `/uploads/${event.eventPicture}` : 'default-image-path.jpg'} 
-                                alt={event.eventName} 
-                                className="event-image" 
+        <div className="events-container">
+            <div className="events-list">
+                {events.map((event) => (
+                    <div key={event._id} className="event-card" onClick={() => handleEventClick(event)}>
+                        <h4>{event.eventName}</h4>
+                        <p><strong>Organized By:</strong> {event.organizedBy}</p>
+                        <p><strong>Registrations Available:</strong> {event.registrationsAvailable}</p>
+                        <p><strong>Registration End Date:</strong> {event.registrationEndDate}</p>
+                        {event.eventPicture && (
+                            <img
+                                src={`http://localhost:3000/event-images/${event.eventPicture}`}
+                                alt={event.eventName}
+                                className="event-image-thumbnail"
                             />
-                            <div className="event-details">
-                                <h3>{event.eventName}</h3>
-                                <p>Organized By: {event.organizedBy}</p>
-                                {event.facultyCoordinators.filter(Boolean).length > 0 && (
-                                    <p>Faculty Coordinators: {event.facultyCoordinators.join(', ')}</p>
-                                )}
-                                {event.registrationsAvailable && (
-                                    <p>Registrations Available: {event.registrationsAvailable}</p>
-                                )}
-                                <p>Start Date: {new Date(event.startDate).toLocaleDateString()}</p>
-                                <p>End Date: {new Date(event.endDate).toLocaleDateString()}</p>
-                                <p>Registration Ends: {new Date(event.registrationEndDate).toLocaleDateString()}</p>
-                                {event.entryFee && <p>Entry Fee: ₹{event.entryFee}</p>}
-                                <p>Availability: {event.availability}</p>
-                            </div>
-                        </div>
-                    ))
-                )}
+                        )}
+                    </div>
+                ))}
             </div>
+
+            {selectedEvent && (
+                <div className="event-details">
+                    <button className="close-button" onClick={handleClose}>×</button>
+                    <h2>{selectedEvent.eventName}</h2>
+                    <p><strong>Organized By:</strong> {selectedEvent.organizedBy}</p>
+                    <p><strong>Start Date:</strong> {new Date(selectedEvent.startDate).toLocaleDateString()}</p>
+                    <p><strong>End Date:</strong> {new Date(selectedEvent.endDate).toLocaleDateString()}</p>
+                    <p><strong>Registrations Available:</strong> {selectedEvent.registrationsAvailable}</p>
+                    <p><strong>Registration End Date:</strong> {new Date(selectedEvent.registrationEndDate).toLocaleDateString()}</p>
+                    <p><strong>Entry Fee:</strong> {selectedEvent.entryFee || 'Free'}</p>
+                    <p><strong>Availability:</strong> {selectedEvent.availability}</p>
+                    {selectedEvent.eventPicture && (
+                        <img
+                            src={`http://localhost:3000/event-images/${selectedEvent.eventPicture}`}
+                            alt={selectedEvent.eventName}
+                            className="event-image-large"
+                        />
+                    )}
+                </div>
+            )}
         </div>
     );
 };
 
-export default ViewEvents;
+export default Viewevents;

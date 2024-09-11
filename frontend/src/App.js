@@ -3,7 +3,7 @@ import Root from './components/Root/Root';
 import Home from './components/Home/Home';
 import Registration from './components/Registration/Registration';
 import Login from './components/Login/Login';
-import AddEvents from './components/addEvents/Addevents';
+import Addevents from './components/addEvents/Addevents';
 import ViewEvents from './components/Viewevents/Viewevents';
 import Dashboard from '../src/Dashboard/Dashboard';
 import Events from './components/Events/Events';
@@ -11,6 +11,7 @@ import Scholorship from './components/Scholorship/Scholorship';
 import Chatbot from "../src/chatbot/Chatbot";
 import FileUploadForm from "./print/FileUploadForm";
 import FileUpload from "../src/File/FileUpload";
+import payment from './payment/payment';
 
 function App() {
   const router = createBrowserRouter([
@@ -29,6 +30,10 @@ function App() {
         {
           path: 'signin',
           element: <Login />
+        },
+        {
+          path:'/payment',
+          element:<payment/>
         },
         {
           path: 'dashboard',
@@ -64,6 +69,7 @@ function App() {
           element:<FileUpload/>
         },
 
+
         {
           // "Events" route should be outside the "Dashboard" so that it opens in a separate page.
           path: 'events',
@@ -71,7 +77,7 @@ function App() {
           children: [
             {
               path: 'addevents',
-              element: <AddEvents />
+              element: <Addevents />
             },
             {
               path: 'viewevents',
@@ -85,10 +91,9 @@ function App() {
 
   return (
     <div className="App">
-      <h1 className="text-center text-danger" style={{ fontWeight: 'bold' }}>
-        Welcome to the Project
+      
         <Chatbot />
-      </h1>
+      
       <RouterProvider router={router}></RouterProvider>
     </div>
   );
