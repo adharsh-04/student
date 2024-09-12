@@ -1,59 +1,92 @@
-import React, { useState, useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import axios from 'axios';
-import '../Viewevents/Viewevents.css';
+import './Viewevents.css'; // Ensure this CSS file is included for styling
+import { useNavigate } from 'react-router-dom'; // Use useNavigate from react-router-dom in v6
 
-const ViewEvents = () => {
+const Viewevents = () => {
     const [events, setEvents] = useState([]);
+    const [selectedEvent, setSelectedEvent] = useState(null);
+    const navigate = useNavigate();  // Using useNavigate to handle routing
 
     useEffect(() => {
         const fetchEvents = async () => {
             try {
-                const response = await axios.get('/api/events');
+                const response = await axios.get('http://localhost:3000/eventsapi/events');
                 setEvents(response.data);
             } catch (error) {
                 console.error('Error fetching events:', error);
             }
         };
-        
 
         fetchEvents();
     }, []);
 
+    const handleEventClick = (event) => {
+        setSelectedEvent(event);
+    };
+
+    const handleClose = () => {
+        setSelectedEvent(null);
+    };
+
+    // Function to navigate to the registration form
+    const handleRegisterClick = () => {
+        navigate('/eventregister');  // Replace with your registration form route
+    };
+
     return (
-        <div id="events-container">
-            <h2 className="text-center">Upcoming Events</h2>
-            <div className="events-grid">
-                {events.length === 0 ? (
-                    <p>No events available</p>
-                ) : (
-                    events.map((event, index) => (
-                        <div key={index} className="event-card">
-                            <img 
-                                src={event.eventPicture ? `/uploads/${event.eventPicture}` : 'default-image-path.jpg'} 
-                                alt={event.eventName} 
-                                className="event-image" 
+        <div className="events-container">
+            {events.map((event) => (
+                <div key={event._id} className="event-card" onClick={() => handleEventClick(event)}>
+                    <div className="event-image">
+                        {event.eventPicture && (
+                            <img
+                                src={`http://localhost:3000/event-images/${event.eventPicture}`}
+                                alt={event.eventName}
+                                className="event-image-thumbnail"
                             />
-                            <div className="event-details">
-                                <h3>{event.eventName}</h3>
-                                <p>Organized By: {event.organizedBy}</p>
-                                {event.facultyCoordinators.filter(Boolean).length > 0 && (
-                                    <p>Faculty Coordinators: {event.facultyCoordinators.join(', ')}</p>
-                                )}
-                                {event.registrationsAvailable && (
-                                    <p>Registrations Available: {event.registrationsAvailable}</p>
-                                )}
-                                <p>Start Date: {new Date(event.startDate).toLocaleDateString()}</p>
-                                <p>End Date: {new Date(event.endDate).toLocaleDateString()}</p>
-                                <p>Registration Ends: {new Date(event.registrationEndDate).toLocaleDateString()}</p>
-                                {event.entryFee && <p>Entry Fee: ₹{event.entryFee}</p>}
-                                <p>Availability: {event.availability}</p>
-                            </div>
-                        </div>
-                    ))
-                )}
-            </div>
+                        )}
+                    </div>
+                    <div className="event-details-summary">
+                        <h4>{event.eventName}</h4>
+                        <p><strong>Organized By:</strong> {event.organizedBy}</p>
+                        <p><strong>Registrations Available:</strong> {event.registrationsAvailable}</p>
+                        <p><strong>Registration End Date:</strong> {new Date(event.registrationEndDate).toLocaleDateString()}</p>
+                    </div>
+                </div>
+            ))}
+
+            {selectedEvent && (
+                <div className="event-details">
+                    <button className="close-button" onClick={handleClose}>×</button>
+                    
+                    {/* Event Image First */}
+                    {selectedEvent.eventPicture && (
+                        <img
+                            src={`http://localhost:3000/event-images/${selectedEvent.eventPicture}`}
+                            alt={selectedEvent.eventName}
+                            className="event-image-large"
+                        />
+                    )}
+
+                    {/* Event Details with Professional Styling */}
+                    <div className="event-info">
+                        <h2 className="event-title">{selectedEvent.eventName}</h2>
+                        <p className="event-organized"><strong>Organized By:</strong> {selectedEvent.organizedBy}</p>
+                        <p><strong>Start Date:</strong> {new Date(selectedEvent.startDate).toLocaleDateString()}</p>
+                        <p><strong>End Date:</strong> {new Date(selectedEvent.endDate).toLocaleDateString()}</p>
+                        <p><strong>Registrations Available:</strong> {selectedEvent.registrationsAvailable}</p>
+                        <p><strong>Registration End Date:</strong> {new Date(selectedEvent.registrationEndDate).toLocaleDateString()}</p>
+                        <p><strong>Entry Fee:</strong> {selectedEvent.entryFee || 'Free'}</p>
+                        <p><strong>Availability:</strong> {selectedEvent.availability}</p>
+                    </div>
+
+                    {/* Register Button */}
+                    <button className="register-button" onClick={handleRegisterClick}>Register Here</button>
+                </div>
+            )}
         </div>
     );
 };
 
-export default ViewEvents;
+export default Viewevents;

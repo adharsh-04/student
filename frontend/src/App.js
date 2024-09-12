@@ -1,27 +1,27 @@
-
 import { RouterProvider, createBrowserRouter } from 'react-router-dom';
 import Root from './components/Root/Root';
 import Home from './components/Home/Home';
 import Registration from './components/Registration/Registration';
 import Login from './components/Login/Login';
-import AddEvents from './components/addEvents/Addevents';
+import Addevents from './components/addEvents/Addevents';
 import ViewEvents from './components/Viewevents/Viewevents';
+import Dashboard from '../src/Dashboard/Dashboard';
 import Events from './components/Events/Events';
-import Chatbot from "../src/chatbot/Chatbot";
-import Dashboard from './Dashboard/Dashboard';
-import Scholorship from './components/Scholorship/Scholorship';
-import FileUploadForm from "./print/FileUploadForm";
-// import FileUpload from "./File/FileUpload";
+import Scholarship from './components/Scholorship/Scholarship';
+import FileUploadForm from './print/FileUploadForm';
+import FileUpload from '../src/File/FileUpload';
+import Chatbot from '../src/chatbot/Chatbot';
+import EventRegistrationForm from './components/Events/EventRegistrationForm';
 
 function App() {
   const router = createBrowserRouter([
     {
-      path: '',
-      element: <Root />,
+      path: '/',
+      element: <Root />, // Root component for general layout
       children: [
         {
           path: '',
-          element: <Home />
+          element: <Home /> // Default route when accessing '/'
         },
         {
           path: 'signup',
@@ -32,31 +32,38 @@ function App() {
           element: <Login />
         },
         {
-        path:'dashboard',
-        element:<Dashboard/>,
-        children:[
-        {path:'fileuploadform',
-        element:<FileUploadForm/>,
+          path: 'dashboard',
+          element: <Dashboard />
+        },
+        {
+          path: 'fileuploadform',
+          element: <FileUploadForm />
+        },
+        {
+          path: 'scholarship',
+          element: <Scholarship />
+        },
+        {
+          path: 'fileupload',
+          element: <FileUpload />
+        },
+        {
+          path: 'eventregister',
+          element: <EventRegistrationForm />
         },
         {
           path: 'events',
-          element: <Events/>,
+          element: <Events />, // Events section with nested routes
           children: [
             {
               path: 'addevents',
-              element: <AddEvents />
+              element: <Addevents />
             },
             {
               path: 'viewevents',
               element: <ViewEvents />
             }
           ]
-        },
-        {
-          path:"scholorship",
-          element:<Scholorship/>
-        },
-        ]
         }
       ]
     }
@@ -66,9 +73,9 @@ function App() {
     <div className="App">
       <h1 className="text-center text-danger" style={{ fontWeight: 'bold' }}>
         Welcome to the Project
-        <Chatbot/>
       </h1>
-      <RouterProvider router={router}></RouterProvider>
+      <RouterProvider router={router} />
+      <Chatbot/>
     </div>
   );
 }

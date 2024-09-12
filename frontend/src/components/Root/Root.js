@@ -9,7 +9,7 @@ function Root() {
         <Header/>
         <div style={{
           minHeight:"100vh",
-          backgroundImage:"url('')",
+          backgroundImage:"url('https://i.pinimg.com/originals/69/e3/3d/69e33dbe9efa230e17472c04b924a104.jpg')",
           backgroundSize:"cover",
           backgroundPosition:"center",
           backgroundRepeat:"No-repeat"

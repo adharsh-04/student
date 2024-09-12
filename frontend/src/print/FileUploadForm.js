@@ -100,7 +100,7 @@ function FileUploadForm() {
                     {files.map((file) => (
                         <li key={file._id} className="list-group-item d-flex justify-content-between align-items-center">
                             {file.originalname}
-                            <button onClick={() => handlePreview(file._id)} className="btn btn-outline-secondary btn-sm">Preview</button>
+                            <button onClick={() => handlePreview(file._id)} className="btn btn-outline-secondary w-50 ">Preview</button>
                         </li>
                     ))}
                 </ul>

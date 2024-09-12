@@ -6,17 +6,17 @@ function Events() {
     <div className="container mt-5">
       <div className="row">
         <div className="col-lg-12">
-          <h1>Events</h1>
-          <p>Welcome to Events page.</p>
+         
           <nav className='d-flex justify-content-evenly'>
-            <Link className="btn btn-secondary text-dark nav-link-info " to='addevents'>
-            Addevents
+            <Link className="btn btn-secondary text-dark nav-link-info" to="addevents">
+              Add Events
             </Link>
             <Link className="btn btn-secondary text-dark nav-link-info" to="viewevents">
-              ViewEvents
+              View Events
             </Link>
           </nav>
-          <Outlet/>{/* This will render the nested routes most importantone to be mentioned */}
+          {/* Outlet renders the nested routes under Events */}
+          <Outlet />
         </div>
       </div>
     </div>

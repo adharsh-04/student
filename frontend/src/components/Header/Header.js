@@ -3,8 +3,8 @@ import {Link} from "react-router-dom"
 
 function Header() {
   return (
-    <header className="bg-light">
-      <nav className="navbar navbar-expand-lg navbar-light">
+    <header className="bg-warning m-4">
+        <nav className="navbar navbar-expand-lg navbar-light">
         <div className="container">
           <Link className="navbar-brand text-secondary" to="/signin">StudentApp</Link>
           <div className="justify-content-end" >
