@@ -1,118 +1,176 @@
+/* General container styling */
 .events-container {
     display: flex;
-    flex-direction: column;
-    align-items: center;
-    padding: 20px;
-    background-color: #f5f5f5;
+    flex-direction: column; /* Stacking the events vertically */
+    width: 100%; /* Full width */
 }
 
-.events-list {
-    width: 100%;
-    display: flex;
-    flex-direction: column;
-    gap: 20px;
-}
-
+/* Event card styling */
 .event-card {
-    background: #ffffff;
-    border: 1px solid #ddd;
-    border-radius: 8px;
-    padding: 20px;
-    width: 100%;
     display: flex;
-    flex-direction: column;
-    align-items: flex-start;
-    gap: 10px;
+    align-items: center; /* Align content vertically */
+    width: 100%; /* Full width */
+    margin: 10px 0; /* Spacing between events */
+    background-color: #f0f0f0;
+    padding: 15px;
+    border-radius: 10px;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
     cursor: pointer;
-    transition: background-color 0.3s;
+    transition: transform 0.2s ease-in-out;
 }
 
+/* Hover effect */
 .event-card:hover {
-    background-color: #f0f8ff;
+    transform: scale(1.02); /* Slight hover effect */
 }
 
-.event-info h3 {
-    margin: 0;
-    color: #333;
-}
-
-.event-info p {
-    margin: 5px 0;
-    color: #555;
-}
-
+/* Event image styling (left side) */
 .event-image-thumbnail {
-    width: 100px;
-    height: 75px;
+    width: 150px;
+    height: 150px;
     object-fit: cover;
-    border-radius: 4px;
+    border-radius: 10px;
+    margin-right: 15px;
 }
 
+/* Event details summary (right side) */
+.event-details-summary {
+    flex-grow: 1; /* Ensures content takes available space */
+}
+
+/* Make text larger and more legible */
+h4 {
+    font-size: 1.6em;
+    font-weight: bold;
+    color: #88a415;
+}
+
+p {
+    font-size: 1.2em;
+    color: #901bef;
+}
+
+/* Event details styling for modal */
 .event-details {
     position: fixed;
-    top: 10%;
+    top: 50%;
     left: 50%;
-    transform: translateX(-50%);
-    background: #ffffff;
-    border: 1px solid #ddd;
-    border-radius: 8px;
+    transform: translate(-50%, -50%);
+    width: 600px;
+    background-color: #110f0f;
+    border-radius: 15px;
+    box-shadow: 0 4px 16px rgba(0, 0, 0, 0.2);
     padding: 20px;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
     z-index: 1000;
-    max-width: 90%;
-    overflow-y: auto;
-    max-height: 80%;
     display: flex;
     flex-direction: column;
     align-items: center;
+    animation: openModal 0.3s ease; /* Animation for opening */
 }
 
-.event-details h2 {
-    margin-top: 0;
-    color: #333;
+/* Modal open animation */
+@keyframes openModal {
+    from {
+        opacity: 0;
+        transform: translate(-50%, -55%);
+    }
+    to {
+        opacity: 1;
+        transform: translate(-50%, -50%);
+    }
 }
 
-.event-details p {
-    margin: 5px 0;
-    color: #555;
-}
-
-.event-image-thumbnail,
+/* Enlarged image in event modal */
 .event-image-large {
-    border-radius: 8px;
-    margin-top: 20px;
-}
-
-.event-image-thumbnail {
-    width: 100px;
-    height: 75px;
-    object-fit: cover;
-}
-
-.event-image-large {
-    max-width: 100%;
+    width: 100%;
     height: auto;
+    border-radius: 15px;
+    margin-bottom: 20px;
+    transition: transform 0.2s ease;
 }
 
+/* Event info styling in modal */
+.event-info {
+    width: 100%;
+    text-align: left;
+    padding: 10px;
+}
+
+/* Event title with stylish fonts */
+.event-title {
+    font-size: 2.2em;
+    font-weight: bold;
+    color: #333;
+    text-align: center;
+    letter-spacing: 1px;
+    margin-bottom: 10px;
+    background: linear-gradient(90deg, hsl(72, 92%, 66%), #070ca1);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+}
+
+/* Organized by with stylish fonts */
+.event-organized {
+    font-size: 1.4em;
+    color: #6b75ff;
+    margin-bottom: 10px;
+    font-family: 'Arial Black', sans-serif;
+}
+
+/* General paragraph styling */
+p {
+    font-size: 1.2em;
+    color: #34d2a0;
+    margin-bottom: 8px;
+}
+
+/* Register button in modal */
+.register-button {
+    display: block;
+    width: 100%;
+    padding: 12px;
+    background-color: #28a745;
+    color: white;
+    font-size: 1.3em;
+    border: none;
+    border-radius: 5px;
+    margin-top: 20px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+    font-family: 'Arial Black', sans-serif;
+}
+
+/* Hover effect for register button */
+.register-button:hover {
+    background-color: #218838;
+}
+
+/* Close button for modal */
 .close-button {
     position: absolute;
     top: 10px;
-    right: 10px;
-    background: #ff6f6f;
+    right: 15px;
+    background: none;
     border: none;
-    color: #fff;
-    font-size: 20px;
-    border-radius: 50%;
-    width: 30px;
-    height: 30px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
+    font-size: 2em;
     cursor: pointer;
-    transition: background 0.3s;
+    color: hsl(87, 74%, 39%);
 }
 
-.close-button:hover {
-    background: #ff3b3b;
+/* Responsive adjustments */
+@media (max-width: 768px) {
+    .event-card {
+        flex-direction: column; /* Stack image and content vertically on small screens */
+        align-items: flex-start;
+    }
+
+    .event-image-thumbnail {
+        width: 100%;
+        height: auto;
+        margin-bottom: 15px;
+    }
+
+    .event-details {
+        width: 90%;
+    }
 }

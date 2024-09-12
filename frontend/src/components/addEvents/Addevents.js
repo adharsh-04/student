@@ -70,11 +70,7 @@ const Addevents = () => {
             });
 
             if (response.status === 201) {
-                if (eventData.entryFee) {
-                    window.location.href = '/payment';
-                } else {
-                    alert('Successfully Registered');
-                }
+                alert('Successfully Registered');
             }
         } catch (error) {
             console.error('Error registering event:', error);

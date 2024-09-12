@@ -11,8 +11,9 @@ import Scholorship from './components/Scholorship/Scholorship';
 import Chatbot from "../src/chatbot/Chatbot";
 import FileUploadForm from "./print/FileUploadForm";
 import FileUpload from "../src/File/FileUpload";
-import payment from './payment/payment';
 
+
+import EventRegistrationForm from './components/Events/EventRegistrationForm';
 function App() {
   const router = createBrowserRouter([
     {
@@ -31,27 +32,11 @@ function App() {
           path: 'signin',
           element: <Login />
         },
-        {
-          path:'/payment',
-          element:<payment/>
-        },
+        
         {
           path: 'dashboard',
           element: <Dashboard />
-          // children: [
-          //   {
-          //     path: 'fileuploadform',
-          //     element: <FileUploadForm />
-          //   },
-          //   {
-          //     path: 'scholorship',
-          //     element: <Scholorship />
-          //   },
-          //   {
-          //     path: 'fileupload',
-          //     element: <FileUpload />
-          //   }
-          // ]
+          
         },
         {
           path:'/fileuploadform',
@@ -67,6 +52,11 @@ function App() {
         {
           path:'/fileupload',
           element:<FileUpload/>
+        },
+        {
+          path:'/eventregister',
+          element:<EventRegistrationForm/>
+
         },
 
 
@@ -91,6 +81,7 @@ function App() {
 
   return (
     <div className="App">
+  
       
         <Chatbot />
       
