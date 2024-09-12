@@ -46,6 +46,11 @@ async function initializeDatabase() {
         app.use('/scholarshipapi',scholarshipsapi)
         app.use('/fileapi',fileapi);
         app.use('/printapi',printapi);
+        const path = require('path');
+
+// Serve static files from the 'event-images' directory
+app.use('/event-images', express.static(path.join(__dirname, 'event-images')));
+
 
         // Start the server
         app.listen(port, () => console.log(`Server is running on port ${port}...`));
