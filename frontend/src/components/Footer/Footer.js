@@ -11,11 +11,7 @@ function Footer() {
             <ul className="list-unstyled">
               <li><a href="./facebook.com" className="text-white">Facebook</a></li>
               <li><a href="./twitter.com" className="text-white">Twitter</a></li>
-<<<<<<< HEAD
               <li><a href="./instagram.com" className="text-white">Instagram</a></li>
-=======
-              <li><a href="./insta" className="text-white">Instagram</a></li>
->>>>>>> main
             </ul>
           </div>
           <div className="col-md-4 text-center mb-3">
@@ -31,11 +27,7 @@ function Footer() {
             <ul className="list-unstyled">
               <li><span>Phone: 87989379832</span></li>
               <li><a href="./email" className="text-white">Email Us</a></li>
-<<<<<<< HEAD
               <li><a href="./moredetails" className="text-white">More Details</a></li>
-=======
-              <li><a href="./details" className="text-white">More Details</a></li>
->>>>>>> main
             </ul>
           </div>
         </div>

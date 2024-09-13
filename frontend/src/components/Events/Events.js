@@ -23,15 +23,10 @@ function Events() {
     <div className="container mt-2 mb-2">
       <div className="row">
         <div className="col-lg-12">
-<<<<<<< HEAD
 
           {/* Navigation Buttons */}
           <nav className="d-flex justify-content-evenly mb-4">
             <Link className="btn btn-secondary text-dark nav-link-info" to="/events/addevents">
-=======
-          <nav className="d-flex justify-content-evenly">
-            <Link className="btn btn-secondary text-dark nav-link-info" to="addevents">
->>>>>>> main
               Add Events
             </Link>
             <Link className="btn btn-secondary text-dark nav-link-info" to="/events/viewevents">
