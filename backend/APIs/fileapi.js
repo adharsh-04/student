@@ -2,6 +2,7 @@ const express = require('express');
 const multer = require('multer');
 const path = require('path');
 const { ObjectId } = require('mongodb');
+const fs = require('fs');
 
 // Setup multer for PDF file upload with unique filename
 const upload = multer({
@@ -22,40 +23,56 @@ const upload = multer({
             cb(new Error('Only PDF files are allowed'), false);
         }
     }
-});
+}).single('file');
 
 function fileapi(filesCollection) {
     const router = express.Router();
 
     // Route to upload a PDF file
-    router.post('/upload', upload.single('file'), async (req, res) => {
-        try {
+    router.post('/upload', (req, res) => {
+        upload(req, res, async (err) => {
+            if (err instanceof multer.MulterError) {
+                return res.status(400).json({ message: `Multer error: ${err.message}` });
+            } else if (err) {
+                return res.status(500).json({ message: `Error uploading file: ${err.message}` });
+            }
+
             if (!req.file) {
                 return res.status(400).json({ message: 'No file uploaded' });
             }
 
-            // Save the file details in MongoDB, including the original filename
+            // Save the file details in MongoDB
             const fileData = {
-                originalname: req.file.originalname, // Original filename
-                filename: req.file.filename, // Unique filename stored on disk
+                originalname: req.file.originalname,
+                filename: req.file.filename,
                 path: req.file.path,
                 uploadDate: new Date(),
             };
 
-            const result = await filesCollection.insertOne(fileData);
-
-            res.status(201).json({ message: 'File uploaded successfully', data: result });
-        } catch (error) {
-            console.error('Error uploading file:', error);
-            res.status(500).json({ message: 'Error uploading file', error: error.message });
-        }
+            try {
+                const result = await filesCollection.insertOne(fileData);
+                res.status(201).json({ message: 'File uploaded successfully', data: result });
+            } catch (error) {
+                res.status(500).json({ message: 'Error saving file data', error: error.message });
+            }
+        });
     });
 
-    // Route to retrieve all files from the collection
+    // Route to retrieve files with pagination
     router.get('/files', async (req, res) => {
+        const { page = 1, limit = 5 } = req.query;
+
         try {
-            const files = await filesCollection.find().toArray(); // Get all files from DB
-            res.json(files);
+            const files = await filesCollection
+                .find()
+                .skip((page - 1) * limit)
+                .limit(parseInt(limit))
+                .toArray();
+
+            const totalFiles = await filesCollection.countDocuments();
+            const totalPages = Math.ceil(totalFiles / limit);
+
+            res.json({ files, totalPages });
         } catch (error) {
             res.status(500).json({ message: 'Error fetching files' });
         }
@@ -69,9 +86,11 @@ function fileapi(filesCollection) {
             const file = await filesCollection.findOne({ _id: new ObjectId(fileId) });
             if (!file) return res.status(404).json({ message: 'File not found' });
 
-            const filePath = path.join(__dirname, '../uploads', file.filename); // Path to stored file
+            const filePath = path.join(__dirname, '../uploads', file.filename);
+            if (!fs.existsSync(filePath)) {
+                return res.status(404).json({ message: 'File not found on disk' });
+            }
 
-            // Send the file for download
             res.download(filePath, file.originalname, (err) => {
                 if (err) {
                     console.error('Error downloading file:', err);
@@ -79,12 +98,9 @@ function fileapi(filesCollection) {
                 }
             });
         } catch (error) {
-            console.error('Error fetching file details:', error);
             res.status(500).send('Error fetching file details');
         }
     });
-
-       
 
     return router;
 }
