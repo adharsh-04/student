@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import './Chatbot.css';
 
 const Chatbot = () => {
   const [showBot, setShowBot] = useState(false);
@@ -12,22 +13,23 @@ const Chatbot = () => {
       <button 
         style={{
           position: 'fixed',
-          bottom: '20px',
-          right: '20px',
+          bottom: '10px',
+          right: showBot ? '370px' : '20px', // Move to the side when the bot is open
           zIndex: '1000',
-          backgroundColor: '#ff0000', // Changed from green to red
+          backgroundColor: '#ff0000', // Button color
           color: 'white',
           border: 'none',
-          padding: '15px 20px',
-          borderRadius: '50%',
+          padding: '16px',
+          borderRadius: '70px',
+          width: '90px',
           fontSize: '18px',
           cursor: 'pointer',
-          boxShadow: '0px 4px 10px rgba(0,0,0,0.1)',
+          boxShadow: '0px 5px 10px rgba(0,0,0,0.1)',
           transition: 'all 0.3s ease'
         }} 
         onClick={toggleBot}
       >
-        {showBot ? 'X' : 'Chat'}
+        {showBot ? 'X' : 'ChatBot'}
       </button>
 
       {showBot && (

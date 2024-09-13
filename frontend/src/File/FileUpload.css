@@ -1,78 +1,114 @@
-.file-upload-container {
-    max-width: 600px;
-    margin: 0 auto;
-    font-family: Arial, sans-serif;
-    padding: 20px;
-    background-color: #f9f9f9;
-    border-radius: 10px;
-    box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
-}
+/* FileUpload.css */
 
-h2 {
+.file-upload-container {
+    background-color: #f4f4f4; /* Light grey background */
+    border-radius: 10px;
+    padding: 20px;
+    max-width: 600px;
+    margin: 40px auto; /* Center alignment with top margin */
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Soft shadow for depth */
     text-align: center;
 }
 
 .upload-section {
     display: flex;
-    justify-content: space-between;
     align-items: center;
+    justify-content: center;
+    gap: 10px;
     margin-bottom: 20px;
 }
 
 .upload-section input[type="file"] {
-    flex: 1;
     padding: 10px;
+    font-size: 14px;
 }
 
 .upload-section button {
-    margin-left: 10px;
-    padding: 10px 15px;
-    background-color: #4CAF50;
+    background-color: #28a745; /* Green color for upload button */
     color: white;
     border: none;
+    padding: 10px 20px;
     border-radius: 5px;
     cursor: pointer;
+    transition: background-color 0.3s ease;
 }
 
 .upload-section button:hover {
-    background-color: #45a049;
+    background-color: #218838; /* Darker green on hover */
+}
+
+.message {
+    color: #ff5e57; /* Red color for messages */
+    font-weight: bold;
+    margin-top: 10px;
+}
+
+.search-section {
+    margin: 20px 0;
+}
+
+.search-section input[type="text"] {
+    width: 100%;
+    padding: 10px;
+    font-size: 14px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    margin-bottom: 20px;
 }
 
 .files-list {
-    margin-top: 20px;
+    background-color: #fff;
+    padding: 10px;
+    border-radius: 10px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
 }
 
 .file-item {
     display: flex;
     justify-content: space-between;
     align-items: center;
+    background-color: #e9ecef;
     padding: 10px;
-    margin: 10px 0;
-    background-color: #fff;
-    border: 1px solid #ddd;
     border-radius: 5px;
-    box-shadow: 0px 0px 5px rgba(0, 0, 0, 0.1);
+    margin-bottom: 10px;
 }
 
 .file-item span {
-    flex: 1;
-    font-size: 16px;
+    font-weight: bold;
+    color: #333;
 }
 
 .file-item button {
-    padding: 5px 10px;
-    background-color: #007bff;
+    background-color: #007bff; /* Blue color for download button */
     color: white;
     border: none;
+    padding: 5px 15px;
+    width: 120px; /* Fixed width for all download buttons */
     border-radius: 5px;
     cursor: pointer;
+    transition: background-color 0.3s ease;
+    margin-left: 10px; /* Spacing between the button and filename */
 }
 
 .file-item button:hover {
-    background-color: #0056b3;
+    background-color: #0056b3; /* Darker blue on hover */
 }
 
-p {
-    text-align: center;
-    color: #ff0000;
+.pagination {
+    margin-top: 10px;
+}
+
+.pagination button {
+    background-color: #28a745; /* Green color for pagination buttons */
+    color: white;
+    border: none;
+    padding: 5px 10px;
+    margin: 0 5px;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.pagination button:hover {
+    background-color: #218838; /* Darker green on hover */
 }
