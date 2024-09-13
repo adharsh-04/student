@@ -3,11 +3,10 @@ import { Link, Outlet } from 'react-router-dom';
 
 function Events() {
   return (
-    <div className="container mt-5">
+    <div className="container mt-2 mb-2">
       <div className="row">
         <div className="col-lg-12">
-         
-          <nav className='d-flex justify-content-evenly'>
+          <nav className="d-flex justify-content-evenly">
             <Link className="btn btn-secondary text-dark nav-link-info" to="addevents">
               Add Events
             </Link>
