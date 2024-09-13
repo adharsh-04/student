@@ -1,11 +1,47 @@
-Dashboard.css
+/* Dashboard Container Styling */
 .dashboard-container {
-    background-image: url('https://cdn.wallpapersafari.com/9/18/iLVBIR.jpg');
-    background-size: cover;
-    background-position: center;
-    background-repeat: no-repeat;
-    min-height: 100vh; /* Ensure the background covers the entire viewport height */
-    padding: 20px; /* Optional: Add padding for spacing */
-    color: #fff; /* Optional: Set text color to white for better contrast */
-  }
-  
+  background-color: #f4f6f9;
+  padding: 50px 0;
+}
+
+/* Welcome Message Styling */
+.welcome-message {
+  font-size: 3rem;
+  font-weight: bold;
+  color: #007bff;
+  text-shadow: 2px 2px 5px rgba(0, 0, 0, 0.1);
+}
+
+/* Subtitle Styling */
+.dashboard-subtitle {
+  font-size: 1.5rem;
+  color: #6c757d;
+  margin-bottom: 40px;
+}
+
+/* Navigation Button Styling */
+.dashboard-nav .dashboard-btn {
+  background-color: #ffc107;
+  border: none;
+  padding: 15px 30px;
+  font-size: 1.2rem;
+  font-weight: 600;
+  color: #fff;
+  border-radius: 8px;
+  transition: background-color 0.3s ease;
+  text-transform: uppercase;
+}
+
+/* Button Hover Effect */
+.dashboard-nav .dashboard-btn:hover {
+  background-color: #e0a800;
+  color: #fff;
+  text-decoration: none;
+}
+
+/* Center the navigation buttons and make them more attractive */
+.dashboard-nav {
+  display: flex;
+  justify-content: center;
+  gap: 20px;
+}

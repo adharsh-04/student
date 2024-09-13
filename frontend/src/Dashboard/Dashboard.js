@@ -7,26 +7,30 @@ function Dashboard() {
   const username = localStorage.getItem('username') || 'User';
 
   return (
-    <div className="dashboard-container mt-2 mb-2">
+    <div className="dashboard-container">
       <div className="container">
         <div className="row">
-          <div className="col-lg-12">
-            <h1>Dashboard</h1>
-            <p>Welcome, {username}!</p> {/* Display the username here */}
-            <nav>
-              <Link className="btn btn-secondary text-dark nav-link-info d-block m-auto w-25 mt-4" to="/events">
+          <div className="col-lg-12 text-center">
+            {/* Welcome Message */}
+            <h1 className="welcome-message">Welcome, {username}!</h1>
+            <p className="dashboard-subtitle">Your personal dashboard for managing events, scholarships, and more.</p>
+
+            {/* Navigation Buttons */}
+            <nav className="dashboard-nav mt-4">
+              <Link className="btn dashboard-btn m-3" to="/events">
                 Events
               </Link>
-              <Link className="btn btn-secondary text-dark nav-link-info d-block m-auto w-25 mt-4" to="/scholarship">
+              <Link className="btn dashboard-btn m-3" to="/scholarship">
                 Scholarship
               </Link>
-              <Link className="btn btn-secondary text-dark nav-link-info d-block m-auto w-25 mt-4" to="/fileuploadform">
+              <Link className="btn dashboard-btn m-3" to="/fileuploadform">
                 Print
               </Link>
-              <Link className="btn btn-secondary text-dark nav-link-info d-block m-auto w-25 mt-4" to="/fileupload">
+              <Link className="btn dashboard-btn m-3" to="/fileupload">
                 Exam Essentials
               </Link>
             </nav>
+
             <Outlet />
           </div>
         </div>

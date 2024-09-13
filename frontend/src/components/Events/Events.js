@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { Link, Outlet } from 'react-router-dom'; // Add Outlet for nested routes
+import { Link, Outlet } from 'react-router-dom';
 import axios from 'axios';
 
 function Events() {
@@ -23,13 +23,12 @@ function Events() {
     <div className="container mt-2 mb-2">
       <div className="row">
         <div className="col-lg-12">
-
           {/* Navigation Buttons */}
           <nav className="d-flex justify-content-evenly mb-4">
-            <Link className="btn btn-secondary text-dark nav-link-info" to="/events/addevents">
+            <Link className="btn btn-secondary text-dark" to="/events/addevents">
               Add Events
             </Link>
-            <Link className="btn btn-secondary text-dark nav-link-info" to="/events/viewevents">
+            <Link className="btn btn-secondary text-dark" to="/events/viewevents">
               View Events
             </Link>
           </nav>
@@ -53,7 +52,7 @@ function Events() {
               <p className="text-center">No events available at the moment.</p>
             )}
           </div>
-          
+
           {/* Outlet for Nested Routes */}
           <Outlet />
         </div>
