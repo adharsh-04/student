@@ -1,0 +1,40 @@
+header {
+    background-color: #ffc107; /* Yellow color */
+  }
+  
+  .navbar {
+    border-bottom: 1px solid #ffca28; /* Slightly darker yellow for contrast */
+  }
+  
+  .navbar-brand {
+    font-size: 1.5rem;
+    color: #343a40; /* Dark text for contrast on yellow background */
+  }
+  
+  .navbar-nav .nav-link {
+    font-size: 1rem;
+    padding: 0.5rem 1rem;
+    color: #343a40; /* Dark text for nav links */
+  }
+  
+  .btn-outline-primary {
+    border: 2px solid #343a40; /* Dark border to match text color */
+    color: #343a40; /* Dark text */
+  }
+  
+  .btn-outline-primary:hover {
+    background-color: #343a40;
+    color: #ffffff; /* White text on dark background */
+  }
+  
+  .btn-primary {
+    background-color: #343a40; /* Dark background for primary button */
+    border-color: #343a40; /* Dark border */
+    color: #ffffff; /* White text */
+  }
+  
+  .btn-primary:hover {
+    background-color: #212529; /* Even darker background on hover */
+    border-color: #212529;
+  }
+  

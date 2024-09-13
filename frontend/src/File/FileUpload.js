@@ -7,16 +7,20 @@ function FileUpload() {
     const [message, setMessage] = useState('');
     const [files, setFiles] = useState([]);
     const [searchQuery, setSearchQuery] = useState('');
+    const [page, setPage] = useState(1); // Pagination state
+    const [totalPages, setTotalPages] = useState(1); // Total pages state
 
     useEffect(() => {
         fetchFiles();
-    }, []);
+    }, [page]);
 
     const fetchFiles = async () => {
         try {
-            const response = await axios.get('http://localhost:3000/fileapi/files');
-            const sortedFiles = response.data.sort((a, b) => new Date(b.uploadDate) - new Date(a.uploadDate));
-            setFiles(sortedFiles);
+            const response = await axios.get('http://localhost:3000/fileapi/files', {
+                params: { page, limit: 5 }, // Limit to 5 files per page
+            });
+            setFiles(response.data.files);
+            setTotalPages(response.data.totalPages);
         } catch (error) {
             console.error('Error fetching files:', error);
         }
@@ -27,8 +31,8 @@ function FileUpload() {
             const response = await axios.get('http://localhost:3000/fileapi/search', {
                 params: { query: searchQuery }
             });
-            const sortedFiles = response.data.sort((a, b) => new Date(b.uploadDate) - new Date(a.uploadDate));
-            setFiles(sortedFiles);
+            setFiles(response.data.files);
+            setTotalPages(1); // Reset pagination for search results
         } catch (error) {
             console.error('Error searching files:', error);
         }
@@ -80,6 +84,10 @@ function FileUpload() {
         }
     };
 
+    const handlePageChange = (newPage) => {
+        setPage(newPage);
+    };
+
     return (
         <div className="file-upload-container">
             <h2>Upload File</h2>
@@ -109,6 +117,13 @@ function FileUpload() {
                         </div>
                     ))
                 )}
+            </div>
+
+            {/* Pagination */}
+            <div className="pagination">
+                {Array.from({ length: totalPages }, (_, i) => (
+                    <button key={i} onClick={() => handlePageChange(i + 1)}>{i + 1}</button>
+                ))}
             </div>
         </div>
     );
