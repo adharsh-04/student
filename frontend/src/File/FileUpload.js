@@ -5,18 +5,22 @@ import './FileUpload.css'; // Custom CSS for styling
 function FileUpload() {
     const [file, setFile] = useState(null);
     const [message, setMessage] = useState('');
-    const [files, setFiles] = useState([]);
+    const [files, setFiles] = useState([]); // Initialize as an empty array
     const [searchQuery, setSearchQuery] = useState('');
+    const [page, setPage] = useState(1); // Pagination state
+    const [totalPages, setTotalPages] = useState(1); // Total pages state
 
     useEffect(() => {
         fetchFiles();
-    }, []);
+    }, [page]);
 
     const fetchFiles = async () => {
         try {
-            const response = await axios.get('http://localhost:3000/fileapi/files');
-            const sortedFiles = response.data.sort((a, b) => new Date(b.uploadDate) - new Date(a.uploadDate));
-            setFiles(sortedFiles);
+            const response = await axios.get('http://localhost:3000/fileapi/files', {
+                params: { page, limit: 5 }, // Limit to 5 files per page
+            });
+            setFiles(response.data.files || []); // Ensure files is always an array
+            setTotalPages(response.data.totalPages || 1); // Default to 1 page if undefined
         } catch (error) {
             console.error('Error fetching files:', error);
         }
@@ -27,8 +31,8 @@ function FileUpload() {
             const response = await axios.get('http://localhost:3000/fileapi/search', {
                 params: { query: searchQuery }
             });
-            const sortedFiles = response.data.sort((a, b) => new Date(b.uploadDate) - new Date(a.uploadDate));
-            setFiles(sortedFiles);
+            setFiles(response.data || []); // Ensure files is always an array
+            setTotalPages(1); // Reset pagination for search results
         } catch (error) {
             console.error('Error searching files:', error);
         }
@@ -80,6 +84,10 @@ function FileUpload() {
         }
     };
 
+    const handlePageChange = (newPage) => {
+        setPage(newPage);
+    };
+
     return (
         <div className="file-upload-container">
             <h2>Upload File</h2>
@@ -99,7 +107,7 @@ function FileUpload() {
 
             <h3>Files</h3>
             <div className="files-list">
-                {files.length === 0 ? (
+                {files.length === 0 ? ( // Safely check length of files array
                     <p>No files available</p>
                 ) : (
                     files.map((file, index) => (
@@ -109,6 +117,14 @@ function FileUpload() {
                         </div>
                     ))
                 )}
+            </div>
+
+            <div className="pagination">
+                {[...Array(totalPages)].map((_, i) => (
+                    <button key={i} onClick={() => handlePageChange(i + 1)}>
+                        {i + 1}
+                    </button>
+                ))}
             </div>
         </div>
     );
