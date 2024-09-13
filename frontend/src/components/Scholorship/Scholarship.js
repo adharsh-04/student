@@ -20,7 +20,11 @@ const ScholarshipsPage = () => {
   // Fetch scholarships on load
   useEffect(() => {
     axios.get('http://localhost:3000/scholarshipapi/scholarships')
-      .then(response => setScholarships(response.data))
+      .then(response => {
+        console.log('API Response:', response.data); // Debug API response
+        // Assuming response.data is an array
+        setScholarships(Array.isArray(response.data) ? response.data : []);
+      })
       .catch(error => console.error('Error fetching scholarships:', error));
   }, []);
 
@@ -62,12 +66,13 @@ const ScholarshipsPage = () => {
         setViewMode('view'); // Switch back to viewing scholarships after successful addition
       })
       .catch(error => {
+        console.error('Error adding scholarship:', error);
         setErrorMessage(error.response?.data?.message || 'Error adding scholarship');
       });
   };
 
   return (
-    <div className="container mt-2 mb-2">
+    <div className="container mt-2 mb-2 ">
       <h1 className="my-4 text-center">Scholarships Management</h1>
 
       {/* Toggle Buttons for Viewing and Adding Scholarships */}
@@ -84,23 +89,27 @@ const ScholarshipsPage = () => {
       {viewMode === 'view' && (
         <div className="row">
           {/* Display existing scholarships */}
-          {scholarships.length > 0 ? scholarships.map((scholarship, index) => (
-            <div key={index} className="col-md-4">
-              <div className="card mb-4 shadow-sm">
-                <div className="card-body">
-                  <h5 className="card-title text-primary">{scholarship.name}</h5>
-                  <p className="card-text">{scholarship.description}</p>
-                  <p><strong>Amount:</strong> <span className="text-success">${scholarship.amount}</span></p>
-                  <p><strong>Eligibility:</strong> {scholarship.eligibility}</p>
-                  <p><strong>Deadline:</strong> {new Date(scholarship.deadline).toLocaleDateString()}</p>
-                  <p><strong>Required Documents:</strong></p>
-                  <ul>
-                    {scholarship.requiredDocuments.map((doc, i) => <li key={i}>{doc}</li>)}
-                  </ul>
+          {Array.isArray(scholarships) && scholarships.length > 0 ? (
+            scholarships.map((scholarship, index) => (
+              <div key={index} className="col-md-4">
+                <div className="card mb-4 shadow-sm">
+                  <div className="card-body">
+                    <h5 className="card-title text-primary">{scholarship.name}</h5>
+                    <p className="card-text">{scholarship.description}</p>
+                    <p><strong>Amount:</strong> <span className="text-success">${scholarship.amount}</span></p>
+                    <p><strong>Eligibility:</strong> {scholarship.eligibility}</p>
+                    <p><strong>Deadline:</strong> {new Date(scholarship.deadline).toLocaleDateString()}</p>
+                    <p><strong>Required Documents:</strong></p>
+                    <ul>
+                      {Array.isArray(scholarship.requiredDocuments) && scholarship.requiredDocuments.map((doc, i) => <li key={i}>{doc}</li>)}
+                    </ul>
+                  </div>
                 </div>
               </div>
-            </div>
-          )) : <p className="text-center">No scholarships available.</p>}
+            ))
+          ) : (
+            <p className="text-center">No scholarships available.</p>
+          )}
         </div>
       )}
 
@@ -141,7 +150,7 @@ const ScholarshipsPage = () => {
               <button type="button" className="btn btn-secondary mt-2" onClick={handleAddDocument}>Add Document</button>
             </div>
             <ul>
-              {newScholarship.requiredDocuments.map((doc, index) => <li key={index}>{doc}</li>)}
+              {Array.isArray(newScholarship.requiredDocuments) && newScholarship.requiredDocuments.map((doc, index) => <li key={index}>{doc}</li>)}
             </ul>
 
             <button type="submit" className="btn btn-success w-100 mt-4">Add Scholarship</button>
