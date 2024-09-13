@@ -41,7 +41,7 @@ const Viewevents = () => {
                     <div className="event-image">
                         {event.eventPicture && (
                             <img
-                                src={`http://localhost:3000/event-images/${event.eventPicture}`}
+                                src={`http://localhost:3000/event-images/${event.eventPicture}`} // Make sure this path is correct
                                 alt={event.eventName}
                                 className="event-image-thumbnail"
                             />
@@ -63,7 +63,7 @@ const Viewevents = () => {
                     {/* Event Image First */}
                     {selectedEvent.eventPicture && (
                         <img
-                            src={`http://localhost:3000/event-images/${selectedEvent.eventPicture}`}
+                            src={`http://localhost:3000/event-images/${selectedEvent.eventPicture}`} // Make sure this path is correct
                             alt={selectedEvent.eventName}
                             className="event-image-large"
                         />
