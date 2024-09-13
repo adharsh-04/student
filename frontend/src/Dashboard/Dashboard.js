@@ -3,7 +3,7 @@ import { Link, Outlet } from 'react-router-dom';
 
 function Dashboard() {
   return (
-    <div className="container mt-5">
+    <div className="container">
       <div className="row">
         <div className="col-lg-12">
           <h1>Dashboard</h1>
