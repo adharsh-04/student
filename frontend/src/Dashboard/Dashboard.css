@@ -1,0 +1,11 @@
+Dashboard.css
+.dashboard-container {
+    background-image: url('https://cdn.wallpapersafari.com/9/18/iLVBIR.jpg');
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    min-height: 100vh; /* Ensure the background covers the entire viewport height */
+    padding: 20px; /* Optional: Add padding for spacing */
+    color: #fff; /* Optional: Set text color to white for better contrast */
+  }
+  

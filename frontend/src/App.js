@@ -56,6 +56,10 @@ function App() {
           element: <Events />, // Events section with nested routes
           children: [
             {
+              index: true, // This sets ViewEvents as the default component
+              element: <ViewEvents />
+            },
+            {
               path: 'addevents',
               element: <Addevents />
             },
@@ -71,9 +75,8 @@ function App() {
 
   return (
     <div className="App">
-      
       <RouterProvider router={router} />
-      <Chatbot/>
+      <Chatbot />
     </div>
   );
 }

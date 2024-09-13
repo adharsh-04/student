@@ -35,7 +35,7 @@ const Viewevents = () => {
     };
 
     return (
-        <div className="events-container">
+        <div className="events-container mt-2">
             {events.map((event) => (
                 <div key={event._id} className="event-card" onClick={() => handleEventClick(event)}>
                     <div className="event-image">

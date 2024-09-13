@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import 'bootstrap/dist/css/bootstrap.min.css'; // Import Bootstrap CSS
+import './FileUploadForm.css'
 
 function FileUploadForm() {
     const [file, setFile] = useState(null);
@@ -58,7 +59,7 @@ function FileUploadForm() {
     };
 
     return (
-        <div className="container mt-5">
+        <div className="container mt-2 mb-2 ">
             <div className="card shadow p-4">
                 <h2 className="mb-4">Upload File</h2>
                 <div className="mb-3">

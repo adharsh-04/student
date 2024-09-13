@@ -4,11 +4,16 @@ const path = require('path');
 const { ObjectId } = require('mongodb');
 const fs = require('fs');
 
-// Setup multer for PDF file upload with unique filename
+// Setup multer for PDF file upload
 const upload = multer({
     storage: multer.diskStorage({
         destination: (req, file, cb) => {
-            cb(null, 'uploads/'); // Files stored in uploads/ directory
+            // Ensure the uploads directory exists
+            const uploadDir = path.join(__dirname, '../uploads');
+            if (!fs.existsSync(uploadDir)) {
+                fs.mkdirSync(uploadDir, { recursive: true });
+            }
+            cb(null, uploadDir); // Files stored in uploads/ directory
         },
         filename: (req, file, cb) => {
             const uniqueSuffix = Date.now() + '-' + Math.round(Math.random() * 1E9);
@@ -78,10 +83,21 @@ function fileapi(filesCollection) {
         }
     });
 
-    // Route to download a file by its ObjectId
+    // Route to search files by name
+    router.get('/search', async (req, res) => {
+        const { query } = req.query;
+        try {
+            const regex = new RegExp(query, 'i'); // Case-insensitive regex search
+            const files = await filesCollection.find({ originalname: { $regex: regex } }).toArray();
+            res.json(files);
+        } catch (error) {
+            res.status(500).json({ message: 'Error searching files', error: error.message });
+        }
+    });
+
+    // Route to download a file by its ID
     router.get('/download/:id', async (req, res) => {
         const fileId = req.params.id;
-
         try {
             const file = await filesCollection.findOne({ _id: new ObjectId(fileId) });
             if (!file) return res.status(404).json({ message: 'File not found' });

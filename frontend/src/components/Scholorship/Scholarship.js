@@ -67,7 +67,7 @@ const ScholarshipsPage = () => {
   };
 
   return (
-    <div className="container">
+    <div className="container mt-2 mb-2">
       <h1 className="my-4 text-center">Scholarships Management</h1>
 
       {/* Toggle Buttons for Viewing and Adding Scholarships */}
