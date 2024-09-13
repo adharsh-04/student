@@ -56,7 +56,7 @@ function App() {
           element: <Events />, // Events section with nested routes
           children: [
             {
-              index: true, // This sets ViewEvents as the default component
+              index: true, // Default component when accessing '/events'
               element: <ViewEvents />
             },
             {
@@ -82,3 +82,4 @@ function App() {
 }
 
 export default App;
+
