@@ -71,9 +71,7 @@ function App() {
 
   return (
     <div className="App">
-      <h1 className="text-center text-danger" style={{ fontWeight: 'bold' }}>
-        Welcome to the Project
-      </h1>
+      
       <RouterProvider router={router} />
       <Chatbot/>
     </div>

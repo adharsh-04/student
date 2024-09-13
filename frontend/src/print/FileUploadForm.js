@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import 'bootstrap/dist/css/bootstrap.min.css'; // Import Bootstrap CSS
+import './FileUploadForm.css'
 
 function FileUploadForm() {
     const [file, setFile] = useState(null);
