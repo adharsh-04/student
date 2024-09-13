@@ -3,19 +3,20 @@ import { Link, Outlet } from 'react-router-dom';
 
 function Events() {
   return (
-    <div className="container mt-5">
+    <div className="container mt-2 mb-2">
       <div className="row">
         <div className="col-lg-12">
-         
-          <nav className='d-flex justify-content-evenly'>
-            <Link className="btn btn-secondary text-dark nav-link-info" to="addevents">
+          {/* Navigation Buttons */}
+          <nav className="d-flex justify-content-evenly mb-4">
+            <Link className="btn btn-secondary text-dark" to="/events/addevents">
               Add Events
             </Link>
-            <Link className="btn btn-secondary text-dark nav-link-info" to="viewevents">
+            <Link className="btn btn-secondary text-dark" to="/events/viewevents">
               View Events
             </Link>
           </nav>
-          {/* Outlet renders the nested routes under Events */}
+
+          {/* Render nested components */}
           <Outlet />
         </div>
       </div>

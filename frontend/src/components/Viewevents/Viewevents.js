@@ -35,13 +35,13 @@ const Viewevents = () => {
     };
 
     return (
-        <div className="events-container">
+        <div className="events-container mt-2">
             {events.map((event) => (
                 <div key={event._id} className="event-card" onClick={() => handleEventClick(event)}>
                     <div className="event-image">
                         {event.eventPicture && (
                             <img
-                                src={`http://localhost:3000/event-images/${event.eventPicture}`}
+                                src={`http://localhost:3000/event-images/${event.eventPicture}`} // Corrected path
                                 alt={event.eventName}
                                 className="event-image-thumbnail"
                             />
@@ -63,7 +63,7 @@ const Viewevents = () => {
                     {/* Event Image First */}
                     {selectedEvent.eventPicture && (
                         <img
-                            src={`http://localhost:3000/event-images/${selectedEvent.eventPicture}`}
+                            src={`http://localhost:3000/event-images/${selectedEvent.eventPicture}`} // Corrected path
                             alt={selectedEvent.eventName}
                             className="event-image-large"
                         />

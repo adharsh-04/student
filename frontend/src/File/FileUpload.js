@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useCallback } from 'react';
 import axios from 'axios';
 import './FileUpload.css'; // Custom CSS for styling
 
@@ -10,11 +10,8 @@ function FileUpload() {
     const [page, setPage] = useState(1); // Pagination state
     const [totalPages, setTotalPages] = useState(1); // Total pages state
 
-    useEffect(() => {
-        fetchFiles();
-    }, [page]);
-
-    const fetchFiles = async () => {
+    // Memoize fetchFiles function
+    const fetchFiles = useCallback(async () => {
         try {
             const response = await axios.get('http://localhost:3000/fileapi/files', {
                 params: { page, limit: 5 }, // Limit to 5 files per page
@@ -24,9 +21,10 @@ function FileUpload() {
         } catch (error) {
             console.error('Error fetching files:', error);
         }
-    };
+    }, [page]);
 
-    const fetchSearchedFiles = async () => {
+    // Memoize fetchSearchedFiles function
+    const fetchSearchedFiles = useCallback(async () => {
         try {
             const response = await axios.get('http://localhost:3000/fileapi/search', {
                 params: { query: searchQuery }
@@ -36,7 +34,11 @@ function FileUpload() {
         } catch (error) {
             console.error('Error searching files:', error);
         }
-    };
+    }, [searchQuery]);
+
+    useEffect(() => {
+        fetchFiles();
+    }, [fetchFiles]); // Add fetchFiles to the dependency array
 
     const handleFileChange = (e) => {
         setFile(e.target.files[0]);
@@ -89,7 +91,7 @@ function FileUpload() {
     };
 
     return (
-        <div className="file-upload-container">
+        <div className="file-upload-container mt-5 mb-2 ">
             <h2>Upload File</h2>
             <div className="upload-section">
                 <input type="file" onChange={handleFileChange} />
@@ -97,7 +99,7 @@ function FileUpload() {
             </div>
             <p>{message}</p>
 
-            <h3>Search Files</h3>
+            <h4>Search Files</h4>
             <input
                 type="text"
                 placeholder="Search by filename"
@@ -105,9 +107,9 @@ function FileUpload() {
                 onChange={handleSearchChange}
             />
 
-            <h3>Files</h3>
+            <h4>Files</h4>
             <div className="files-list">
-                {files.length === 0 ? ( // Safely check length of files array
+                {files.length === 0 ? (
                     <p>No files available</p>
                 ) : (
                     files.map((file, index) => (

@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import axios from 'axios';
-import '../addEvents/Addevents.css';
+import '../addEvents/Addevents.css'; // Ensure these paths are correct
 import './Addevents.css';
 
 const branches = ['CSE', 'ECE', 'EEE', 'Mechanical', 'Civil', 'Allied'];
@@ -81,7 +81,12 @@ const Addevents = () => {
     return (
         <div id="container" style={{ width: "100vw" }}>
             <div id="image-section" style={{ width: "40vw" }}>
-                <img src='https://img.freepik.com/free-vector/silhouette-party-crowd-grunge-background_1048-2542.jpg' alt='' className='w-50' id='image' />
+                <img
+                    src='https://img.freepik.com/free-vector/silhouette-party-crowd-grunge-background_1048-2542.jpg'
+                    alt='Event background'
+                    className='w-50'
+                    id='image'
+                />
             </div>
             <div id="form-section" style={{ width: "60vw" }}>
                 <form onSubmit={handleSubmit}>

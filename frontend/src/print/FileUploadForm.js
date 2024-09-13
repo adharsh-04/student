@@ -59,7 +59,7 @@ function FileUploadForm() {
     };
 
     return (
-        <div className="container mt-5">
+        <div className="container mt-2 mb-2 ">
             <div className="card shadow p-4">
                 <h2 className="mb-4">Upload File</h2>
                 <div className="mb-3">
